@@ -46,8 +46,8 @@ cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 # Exportar las variables para terraform
 export VAULT_TOKEN=$VAULT_UNSEAL_KEY
-export VAULT_TOKEN="s.3JgQqUnw6q4zaF5clwpANV0t"
-export VAULT_ADDR="http://192.168.10.151:8200"
+export VAULT_TOKEN="hvs.jakxIRxpMFmZjE0Drkso7kkX"
+export VAULT_ADDR="http://127.0.0.1:8200"
 
 
 ## Empezando con terraform
