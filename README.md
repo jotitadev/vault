@@ -1,10 +1,7 @@
-# hashiconf-lat-2022-vaultk8s
-
-# Crear el cluster de kubernetes
-kind create cluster
-
-# Instalar el servidor de metricas
-kubectl apply -f 0_k8s/install-metrics-server.yaml
+# Requisitos
+* kubectl
+* Terraform
+* kubens - https://webinstall.dev/kubens/
 
 # Crear el namespace en kubernetes
 kubectl create ns hashi-vault
@@ -29,8 +26,8 @@ VAULT_UNSEAL_KEY=$(cat cluster-keys.json | jq -r ".unseal_keys_b64[]")
 
 # Hacer un port forward hacia k8s y nuestro local
 ## Unseal los servidores con exposision de puertos
-kpf vault-0 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json
-kpf vault-1 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json
+kpf vault-0 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
+kpf vault-1 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
 
 Ingresar a: http://192.168.10.151:8200/
 
@@ -45,7 +42,6 @@ cat /var/run/secrets/kubernetes.io/serviceaccount/token
 cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 # Exportar las variables para terraform
-export VAULT_TOKEN=$VAULT_UNSEAL_KEY
 export VAULT_TOKEN="hvs.jakxIRxpMFmZjE0Drkso7kkX"
 export VAULT_ADDR="http://127.0.0.1:8200"
 
@@ -67,4 +63,4 @@ vault write auth/kubernetes/config \
 
 
 ## Crear un pod para obtener los secretos desde vault
-k apply -f 0_k8s/pod-secret.yaml
+kubectl apply -f 0_k8s/pod-secret-ejemplo.yaml
