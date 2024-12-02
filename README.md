@@ -11,7 +11,7 @@ kubectl create ns hashi-vault
 ```
 ```bash
 kubens hashi-vault
-
+```
 
 ```bash
 kubectl create serviceaccount vault-auth
