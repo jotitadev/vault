@@ -17,7 +17,7 @@ kubens hashi-vault
 kubectl create serviceaccount vault-auth
 ```
 # Agregar el repositorio de hashicorp al k8s
-
+```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
 ```
 # Agregar consul a k8s
