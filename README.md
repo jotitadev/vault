@@ -8,26 +8,34 @@
 ```bash
 kubectl create ns hashi-vault
 
+```
 ```bash
 kubens hashi-vault
 
+
 ```bash
 kubectl create serviceaccount vault-auth
-
+```
 # Agregar el repositorio de hashicorp al k8s
+
 helm repo add hashicorp https://helm.releases.hashicorp.com
-
+```
 # Agregar consul a k8s
+```bash
 helm install consul hashicorp/consul --values 0_k8s/helm-values-consul.yaml
-
+```
 # Agrear vault al cluster de k8s
+```bash
 helm install vault hashicorp/vault --values 0_k8s/helm-values-vault.yaml
-
+```
 # Verificar el estatus de vault-0
+```bash
 kubectl exec vault-0 -- vault status
-
+```
 # Obtener la llave de acceso a nuestro recien instalado vault
+```bash
 kubectl exec vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > cluster-keys.json
+```
 VAULT_UNSEAL_KEY=$(cat cluster-keys.json | jq -r ".unseal_keys_b64[]")
 
 # Hacer un port forward hacia k8s y nuestro local
