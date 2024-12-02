@@ -57,7 +57,7 @@ kubectl exec vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
 ```
 ```bash
 kubectl exec vault-1 -- vault operator unseal $VAULT_UNSEAL_KEY
-
+```
 
 ## Obtener la informacion del cluster de kubernetes
 ```bash
