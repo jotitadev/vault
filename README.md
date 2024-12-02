@@ -40,41 +40,66 @@ VAULT_UNSEAL_KEY=$(cat cluster-keys.json | jq -r ".unseal_keys_b64[]")
 
 # Hacer un port forward hacia k8s y nuestro local
 ## Unseal los servidores con exposision de puertos
-kpf vault-0 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
-kpf vault-1 8200:8200 #<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
+```bash
+kubectl port-forward pod/vault-0 8200:8200
+```
+#<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
+```bash
+kubectl port-forward pod/vault-1 8200:8200
+```
+#<-- Ingresar con el unseal del cluster-keys.json para desbloquear vault
 
 Ingresar a: http://192.168.10.151:8200/
 
 ## Unseal los servidores con comandos
+```bash
 kubectl exec vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
+```
+```bash
 kubectl exec vault-1 -- vault operator unseal $VAULT_UNSEAL_KEY
 
 
 ## Obtener la informacion del cluster de kubernetes
+```bash
 echo $KUBERNETES_PORT_443_TCP_ADDR
+```
+```bash
 cat /var/run/secrets/kubernetes.io/serviceaccount/token
+```
+```bash
 cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-
+```
 # Exportar las variables para terraform
+```bash
 export VAULT_TOKEN="hvs.jakxIRxpMFmZjE0Drkso7kkX"
+```
+```bash
 export VAULT_ADDR="http://127.0.0.1:8200"
-
+```
 
 ## Empezando con terraform
+```bash
 terraform init
+```
+```bash
 terraform plan
+```
+
 terraform apply
+```
 
-
-
+```bash
 vault login
-
+```
+```bash
 vault write auth/kubernetes/config \
         kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
         token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
         kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
         issuer="https://kubernetes.default.svc.cluster.local"
-
+```
 
 ## Crear un pod para obtener los secretos desde vault
+```bash
 kubectl apply -f 0_k8s/pod-secret-ejemplo.yaml
+```
