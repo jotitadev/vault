@@ -3,9 +3,15 @@
 * Terraform
 * kubens - https://webinstall.dev/kubens/
 
-# Crear el namespace en kubernetes
+# Crear el namespace en Kubernetes
+
+```bash
 kubectl create ns hashi-vault
+
+```bash
 kubens hashi-vault
+
+```bash
 kubectl create serviceaccount vault-auth
 
 # Agregar el repositorio de hashicorp al k8s
